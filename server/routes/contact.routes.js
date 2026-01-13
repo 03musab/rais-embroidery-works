@@ -3,6 +3,17 @@ const router = express.Router();
 const supabase = require('../supabase');
 const nodemailer = require('nodemailer');
 
+// Create transporter outside the request handler to allow connection pooling
+const transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
+
 // POST /api/contact
 router.post('/', async (req, res) => {
   try {
@@ -20,15 +31,6 @@ router.post('/', async (req, res) => {
 
     // Send response immediately to prevent waiting for email
     res.status(200).json({ message: 'Message received successfully!' });
-
-    // Send Email Notification
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-      }
-    });
 
     // Send email in background without awaiting
     transporter.sendMail({
