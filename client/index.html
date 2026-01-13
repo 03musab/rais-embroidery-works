@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rais Embroidery Works</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #800020; /* Burgundy */
+            --secondary-color: #d4af37; /* Gold */
+            --text-color: #333;
+            --bg-color: #fdfbf7; /* Cream */
+            --white: #ffffff;
+            --fabric-pattern: radial-gradient(#e0e0e0 1px, transparent 1px);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            background-image: var(--fabric-pattern);
+            background-size: 20px 20px;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Georgia', serif;
+            color: var(--primary-color);
+        }
+
+        /* Hero Banner */
+        .hero {
+            position: relative;
+            height: 100vh;
+            background: linear-gradient(rgba(40, 0, 10, 0.7), rgba(40, 0, 10, 0.6)), url('https://images.unsplash.com/photo-1625585668843-2d24495125d3?q=80&w=1920&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--white);
+            border-bottom: 5px solid var(--secondary-color);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        /* Decorative stitch line at bottom of hero */
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: repeating-linear-gradient(90deg, var(--secondary-color) 0, var(--secondary-color) 10px, transparent 10px, transparent 20px);
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            margin: 0;
+            color: var(--secondary-color);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 2px;
+            border-bottom: 2px dashed rgba(212, 175, 55, 0.5);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin: 0 0 2.5rem;
+            font-style: italic;
+            letter-spacing: 1px;
+            font-weight: 300;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out 0.2s forwards;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out 0.4s forwards;
+        }
+
+        .btn {
+            padding: 14px 35px;
+            border: 2px solid var(--secondary-color);
+            background: transparent;
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: var(--secondary-color);
+            transition: width 0.2s ease;
+            z-index: -1;
+        }
+
+        .btn:hover {
+            color: var(--primary-color);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+        }
+        .btn:hover::before {
+            width: 100%;
+        }
+
+        .btn-filled {
+            background: var(--secondary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-filled:hover {
+            background: #fff;
+            border-color: #fff;
+            color: var(--primary-color);
+        }
+        .btn-filled::before {
+            background: #fff;
+        }
+
+        /* Entry Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        @keyframes stitchGrow {
+            to { width: 100%; }
+        }
+
+        /* Scroll Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px) scale(0.95); /* Bigger movement and scale */
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Embroidery Separator Animation */
+        .embroidery-separator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 2.5rem;
+        }
+
+        .stitch-line {
+            width: 120px;
+            height: 2px;
+            position: relative;
+        }
+
+        .stitch-line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 0%;
+            border-bottom: 2px dashed var(--secondary-color);
+            transition: width 0.8s ease-out;
+        }
+
+        .stitch-line.left::after {
+            left: 0; /* Grows from left to right (towards center) */
+        }
+
+        .stitch-line.right::after {
+            right: 0; /* Grows from right to left (towards center) */
+        }
+
+        /* Trigger stitch animation when parent is active */
+        .reveal.active .stitch-line::after {
+            animation: stitchGrow 0.8s ease-out 0.1s forwards;
+        }
+
+        .knot {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            opacity: 0;
+        }
+
+        /* Trigger knot animation when parent is active */
+        .reveal.active .knot {
+            animation: fadeIn 0.4s ease-out 0.9s forwards;
+        }
+
+        /* Brand Introduction */
+        .intro {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* Intro Layout */
+        .intro-container {
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .intro-text {
+            text-align: center;
+        }
+
+        .intro-images {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            height: 350px;
+        }
+
+        .intro-img {
+            position: absolute;
+            width: 70%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease, z-index 0s;
+        }
+
+        .intro-img.main {
+            top: 0;
+            left: 0;
+            z-index: 1;
+            border: 5px solid #fff;
+        }
+
+        .intro-img.secondary {
+            bottom: 0;
+            right: 0;
+            z-index: 2;
+            border: 5px solid var(--secondary-color);
+        }
+
+        .intro-img:hover {
+            transform: scale(1.05);
+            z-index: 3;
+        }
+
+        @media (min-width: 900px) {
+            .intro-container {
+                flex-direction: row;
+                align-items: center;
+            }
+            .intro-text {
+                flex: 1;
+                text-align: left;
+                padding-right: 2rem;
+            }
+            .intro-images {
+                flex: 1;
+            }
+            /* Align separator to left on desktop */
+            .intro-text .embroidery-separator {
+                justify-content: flex-start;
+            }
+            .intro-text h2::after {
+                margin-left: 0;
+            }
+        }
+
+        .intro h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .intro h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background-color: var(--secondary-color);
+            margin: 15px auto 0;
+        }
+
+        .intro p {
+            font-size: 1.25rem;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        /* Why Choose Us */
+        .features {
+            padding: 6rem 2rem;
+            background-color: var(--white);
+            text-align: center;
+            border-top: 1px dashed #ddd;
+            border-bottom: 1px dashed #ddd;
+        }
+
+        .features h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            padding: 2.5rem;
+            border: 2px dashed var(--secondary-color); /* Stitching effect */
+            border-radius: 12px;
+            background: var(--bg-color);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            background: #fff;
+            border-style: solid;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .card p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* Gallery Section */
+        .gallery {
+            padding: 6rem 2rem;
+            background-color: #f8f3eb; /* Slightly darker cream */
+        }
+
+        .gallery h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            height: 300px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Call to Action */
+        .cta {
+            background-color: var(--primary-color);
+            /* Subtle pattern overlay */
+            background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239e1b32' fill-opacity='0.4' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
+            color: var(--white);
+            padding: 5rem 2rem;
+            text-align: center;
+            border-top: 5px solid var(--secondary-color);
+        }
+
+        .cta h2 {
+            color: var(--secondary-color);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta .btn {
+            margin: 0.5rem;
+            display: inline-block;
+            border-color: var(--white);
+            color: var(--white);
+        }
+
+        .cta .btn:hover {
+            background: var(--white);
+            color: var(--primary-color);
+        }
+
+        .cta .btn-filled {
+            background: var(--secondary-color);
+            border-color: var(--secondary-color);
+            color: var(--primary-color);
+        }
+
+        .cta .btn-filled:hover {
+            background: var(--white);
+            color: var(--primary-color);
+            border-color: var(--white);
+        }
+
+        /* --- Intro Animation Styles --- */
+        body.intro-active {
+            overflow: hidden;
+            background-color: #000d20;
+            background-image: none;
+        }
+
+        #intro-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background-color: #000d20;
+            font-family: 'Playfair Display', serif;
+            transition: opacity 1.5s ease;
+        }
+
+        #canvas-container { width: 100vw; height: 100vh; display: block; }
+        
+        /* Overlay for Brand Reveal */
+        #intro-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 2.5s ease-in-out;
+            z-index: 10;
+        }
+        
+        #intro-overlay h1 {
+            font-size: 8rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin: 0;
+            /* Luxury Gold Gradient Text */
+            background: linear-gradient(to right, #FFD700, #FFF8DC, #FFD700, #DAA520, #FFD700);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 4s linear infinite;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            font-family: 'Playfair Display', serif;
+        }
+        
+        #intro-overlay p {
+            color: #ccc;
+            font-size: 2rem;
+            letter-spacing: 0.3em;
+            margin-top: 1.5rem;
+            font-family: 'Lato', sans-serif;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        /* Initial Fade In */
+        #fade-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: black; z-index: 100;
+            transition: opacity 2s ease-out;
+            pointer-events: none;
+        }
+
+        /* Click to Start Overlay */
+        #start-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000d20; z-index: 200;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            cursor: pointer;
+            transition: opacity 0.8s ease-out;
+        }
+        #start-screen h2 { color: #FFD700; font-size: 2rem; margin-bottom: 1rem; animation: pulse 2s infinite; font-family: 'Playfair Display', serif; }
+        #start-screen p { font-size: 1.2rem; color: #888; margin-top: 0.5rem; letter-spacing: 0.1em; font-family: 'Lato', sans-serif; }
+        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+
+        /* Skip Button */
+        #skip-btn {
+            position: fixed; bottom: 30px; right: 30px;
+            color: #FFD700; border: 1px solid #FFD700;
+            padding: 10px 20px; font-family: 'Lato', sans-serif;
+            font-size: 0.8rem; letter-spacing: 0.2em;
+            cursor: pointer; z-index: 150;
+            opacity: 0; pointer-events: none; transition: opacity 0.5s, background 0.3s;
+        }
+        #skip-btn:hover { background: rgba(255, 215, 0, 0.1); }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        @media (max-width: 768px) {
+            #intro-overlay h1 { font-size: 3rem; }
+            #intro-overlay p { font-size: 1rem; }
+        }
+
+        #main-wrapper {
+            opacity: 0;
+            display: none;
+            transition: opacity 2s ease;
+        }
+    </style>
+</head>
+<body class="intro-active">
+    <!-- Intro Animation Container -->
+    <div id="intro-container">
+        <div id="fade-screen"></div>
+        <div id="start-screen">
+            <h2>Click to Start</h2>
+            <p>Experience the Craft</p>
+        </div>
+        <div id="skip-btn">SKIP INTRO</div>
+        <div id="canvas-container"></div>
+        <div id="intro-overlay">
+            <h1>Rais Embroidery</h1>
+            <p>Stitched with Precision. Crafted with Passion.</p>
+        </div>
+    </div>
+
+    <div id="main-wrapper">
+    <header class="hero">
+        <h1>Rais Embroidery Works</h1>
+        <p>Premium Embroidery & Tailoring Craft</p>
+        <div class="btn-group">
+            <a href="services.html" class="btn btn-filled">View Services</a>
+            <a href="contact.html" class="btn">Contact Us</a>
+            <a href="https://instagram.com" target="_blank" class="btn">Instagram</a>
+        </div>
+    </header>
+
+    <section class="intro">
+        <div class="intro-container">
+            <div class="intro-text">
+                <h2 class="reveal">Our Craftsmanship</h2>
+                <p class="reveal">At Rais Embroidery Works, we blend timeless tradition with modern artistry. Our dedication to the needle and thread ensures that every piece we create is not just a garment, but a work of art. Experience the elegance of bespoke tailoring and intricate embroidery designed to perfection.</p>
+                <div class="embroidery-separator reveal">
+                    <div class="stitch-line left"></div>
+                    <div class="knot"><i class="fas fa-certificate"></i></div>
+                    <div class="stitch-line right"></div>
+                </div>
+            </div>
+            <div class="intro-images reveal">
+                <!-- Image 1: Close up of embroidery/sewing -->
+                <img src="https://images.unsplash.com/photo-1617325247661-675ab4b64ae8?auto=format&fit=crop&w=600&q=80" class="intro-img main" alt="Detailed Embroidery">
+                <!-- Image 2: Tailoring/Measuring -->
+                <img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=600&q=80" class="intro-img secondary" alt="Tailoring Process">
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <h2 class="reveal">Why Choose Us</h2>
+        <div class="grid">
+            <div class="card reveal" style="transition-delay: 0.1s;">
+                <h3><i class="fas fa-cut"></i> Quality Stitching</h3>
+                <p>We use premium threads and techniques to ensure every stitch is durable and flawless.</p>
+            </div>
+            <div class="card reveal" style="transition-delay: 0.2s;">
+                <h3><i class="fas fa-search-plus"></i> Fine Detailing</h3>
+                <p>Our artisans pay attention to the smallest details, creating intricate patterns that stand out.</p>
+            </div>
+            <div class="card reveal" style="transition-delay: 0.3s;">
+                <h3><i class="fas fa-handshake"></i> Customer Trust</h3>
+                <p>Built on years of reliability, we pride ourselves on delivering exactly what our customers envision.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="gallery">
+        <h2 class="reveal">Recent Masterpieces</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item reveal" style="transition-delay: 0.1s;">
+                <img src="https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=600&q=80" alt="Elegant Dress">
+            </div>
+            <div class="gallery-item reveal" style="transition-delay: 0.2s;">
+                <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&q=80" alt="Fabric Texture">
+            </div>
+            <div class="gallery-item reveal" style="transition-delay: 0.3s;">
+                <img src="https://images.unsplash.com/photo-1550926720-745b6412d566?auto=format&fit=crop&w=600&q=80" alt="Sewing Machine Art">
+            </div>
+            <div class="gallery-item reveal" style="transition-delay: 0.4s;">
+                <img src="https://images.unsplash.com/photo-1520367288098-2792e80e12a1?auto=format&fit=crop&w=600&q=80" alt="Colorful Threads">
+            </div>
+        </div>
+    </section>
+
+    <footer class="cta">
+        <h2 class="reveal">Get in Touch</h2>
+        <p class="reveal">Ready to start your project? Contact us today.</p>
+        <div class="reveal">
+            <a href="https://wa.me/919867810550" class="btn btn-filled">WhatsApp Us</a>
+            <a href="tel:9867810550" class="btn">Call 9867810550</a>
+        </div>
+    </footer>
+    </div>
+
+    <link rel="stylesheet" href="responsive.css">
+    <script src="navbar.js"></script>
+    <script src="animations.js"></script>
+
+    <!-- Import Three.js and Post Processing from CDN -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+        import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+
+        // Check if intro has already played
+        if (sessionStorage.getItem('introPlayed')) {
+            document.body.classList.remove('intro-active');
+            document.getElementById('intro-container').style.display = 'none';
+            const mainWrapper = document.getElementById('main-wrapper');
+            mainWrapper.style.display = 'block';
+            mainWrapper.style.opacity = 1;
+        } else {
+            initApp();
+        }
+
+        function initApp() {
+        // --- Configuration ---
+        const CONFIG = {
+            fabricColor: 0x001a40, // Deep Royal Blue
+            threadColor: 0xffd700, // Gold
+            needleColor: 0xc0c0c0, // Bright Silver
+        };
+
+        // --- Scene Init ---
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x000d20);
+        scene.fog = new THREE.FogExp2(0x000d20, 0.05);
+
+        const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 100);
+        
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        container.appendChild(renderer.domElement);
+
+        // --- Lighting ---
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
+        scene.add(ambientLight);
+
+        // Main spotlight for dramatic shadows
+        const spotLight = new THREE.SpotLight(0xffeebb, 180);
+        spotLight.position.set(2, 5, 2);
+        spotLight.angle = Math.PI / 5.5;
+        spotLight.penumbra = 0.6;
+        spotLight.castShadow = true;
+        spotLight.shadow.bias = -0.0001;
+        spotLight.shadow.mapSize.width = 2048;
+        spotLight.shadow.mapSize.height = 2048;
+        scene.add(spotLight);
+
+        // Rim light for luxury feel
+        const rimLight = new THREE.PointLight(0x4444ff, 20);
+        rimLight.position.set(-2, 1, -2);
+        scene.add(rimLight);
+
+        // --- Fabric (Procedural Shader) ---
+        const fabricGeo = new THREE.PlaneGeometry(10, 10, 128, 128);
+        const fabricMat = new THREE.MeshStandardMaterial({
+            color: CONFIG.fabricColor,
+            roughness: 0.9,
+            metalness: 0.1,
+            bumpScale: 0.05
+        });
+        
+        // Inject noise into the material for weave texture
+        fabricMat.onBeforeCompile = (shader) => {
+            shader.fragmentShader = shader.fragmentShader.replace(
+                '#include <map_fragment>',
+                `
+                // Simple grid noise for weave
+                float grid = abs(sin(vMapUv.x * 400.0) * sin(vMapUv.y * 400.0));
+                diffuseColor.rgb *= (0.8 + 0.2 * grid);
+                `
+            );
+        };
+        
+        const fabric = new THREE.Mesh(fabricGeo, fabricMat);
+        fabric.rotation.x = -Math.PI / 2;
+        fabric.receiveShadow = true;
+        scene.add(fabric);
+
+        // --- Table (Needle Resting Place) ---
+        const tableGeo = new THREE.BoxGeometry(1.5, 0.1, 1.5);
+        const tableMat = new THREE.MeshStandardMaterial({ 
+            color: 0x8f5e3c, // Lighter Wood
+            roughness: 0.6,
+            metalness: 0.1
+        });
+        const table = new THREE.Mesh(tableGeo, tableMat);
+        table.position.set(-3.5, 0.05, 2.0); // Sitting on the fabric
+        table.receiveShadow = true;
+        scene.add(table);
+
+        // Add a dedicated light for the table area to ensure visibility
+        const tableLight = new THREE.PointLight(0xffeebb, 10, 8);
+        tableLight.position.set(-3.5, 2.0, 2.0);
+        scene.add(tableLight);
+
+        // --- Scissors ---
+        const scissorsGroup = new THREE.Group();
+        
+        const sBladeMat = new THREE.MeshStandardMaterial({ color: 0xe0e0e0, metalness: 0.9, roughness: 0.2 });
+        const sHandleMat = new THREE.MeshStandardMaterial({ color: 0xffd700, metalness: 0.6, roughness: 0.3 });
+
+        // Blade Geometry (Local: X=Length, Y=Width, Z=Thickness)
+        const sBladeGeo = new THREE.BoxGeometry(0.6, 0.06, 0.01); 
+        sBladeGeo.translate(0.3, 0, 0); // Pivot at origin, extends +X
+
+        // Handle Geometry
+        const sHandleGeo = new THREE.TorusGeometry(0.12, 0.015, 8, 24);
+        sHandleGeo.translate(-0.15, 0, 0);
+
+        // Half 1
+        const sHalf1 = new THREE.Group();
+        const b1 = new THREE.Mesh(sBladeGeo, sBladeMat);
+        const h1 = new THREE.Mesh(sHandleGeo, sHandleMat);
+        sHalf1.add(b1, h1);
+        sHalf1.rotation.z = 0.15; // Open angle
+
+        // Half 2
+        const sHalf2 = new THREE.Group();
+        const b2 = new THREE.Mesh(sBladeGeo, sBladeMat);
+        const h2 = new THREE.Mesh(sHandleGeo, sHandleMat);
+        sHalf2.add(b2, h2);
+        sHalf2.rotation.z = -0.15;
+        sHalf2.position.z = 0.01; // Stack slightly
+
+        // Pivot
+        const sPivot = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.02, 0.02, 0.03),
+            new THREE.MeshStandardMaterial({ color: 0x333333 })
+        );
+        sPivot.rotation.x = Math.PI / 2;
+
+        scissorsGroup.add(sHalf1, sHalf2, sPivot);
+        
+        // Position on table
+        scissorsGroup.position.set(-3.1, 0.11, 1.8);
+        scissorsGroup.rotation.x = -Math.PI / 2; // Lay flat
+        scissorsGroup.rotation.z = Math.PI / 3; // Random orientation
+        
+        scissorsGroup.traverse(o => { if(o.isMesh) o.castShadow = true; });
+        scene.add(scissorsGroup);
+
+        // --- Thread & Needle ---
+        // Create a cursive path
+        const curve = new THREE.CatmullRomCurve3([
+            new THREE.Vector3(-1.5, 0.01, -0.5),
+            new THREE.Vector3(-0.5, 0.01, 0.5),
+            new THREE.Vector3(0.5, 0.01, -0.5),
+            new THREE.Vector3(1.5, 0.01, 0.5),
+            new THREE.Vector3(2.0, 0.01, 0.0)
+        ]);
+
+        function createTwistNormalMap() {
+            const size = 512;
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            const imgData = ctx.createImageData(size, size);
+            const data = imgData.data;
+
+            for (let y = 0; y < size; y++) {
+                for (let x = 0; x < size; x++) {
+                    const u = x / size;
+                    const v = y / size;
+                    // Create twisting strand pattern
+                    // 4 strands around (u), twisting along length (v)
+                    const angle = (u * 4 + v * 4) * Math.PI * 2;
+                    const nx = Math.cos(angle); 
+                    const ny = Math.cos(angle) * 0.5; 
+                    const nz = 1.0;
+                    const len = Math.sqrt(nx*nx + ny*ny + nz*nz);
+                    const idx = (y * size + x) * 4;
+                    data[idx] = ((nx/len) * 0.5 + 0.5) * 255;
+                    data[idx+1] = ((ny/len) * 0.5 + 0.5) * 255;
+                    data[idx+2] = ((nz/len) * 0.5 + 0.5) * 255;
+                    data[idx+3] = 255;
+                }
+            }
+            ctx.putImageData(imgData, 0, 0);
+            const tex = new THREE.CanvasTexture(canvas);
+            tex.wrapS = THREE.RepeatWrapping;
+            tex.wrapT = THREE.RepeatWrapping;
+            tex.repeat.set(1, 40); 
+            return tex;
+        }
+
+        const tubeGeo = new THREE.TubeGeometry(curve, 128, 0.02, 8, false);
+        const threadMat = new THREE.MeshStandardMaterial({
+            color: CONFIG.threadColor,
+            metalness: 0.6,
+            roughness: 0.3,
+            normalMap: createTwistNormalMap(),
+            normalScale: new THREE.Vector2(1.5, 1.5),
+            emissive: 0xaa8800,
+            emissiveIntensity: 0.2
+        });
+        
+        const thread = new THREE.Mesh(tubeGeo, threadMat);
+        thread.castShadow = true;
+        // We will control visibility via geometry draw range
+        thread.geometry.setDrawRange(0, 0);
+        scene.add(thread);
+
+        const needleGeo = new THREE.CylinderGeometry(0.015, 0.002, 0.8, 16);
+        const needleMat = new THREE.MeshStandardMaterial({ 
+            color: CONFIG.needleColor, 
+            metalness: 1.0, 
+            roughness: 0.05,
+            emissive: 0x888888,
+            emissiveIntensity: 0.1
+        });
+        const needle = new THREE.Mesh(needleGeo, needleMat);
+        needle.castShadow = true;
+        // Initialize needle resting on the table
+        needle.position.set(-3.5, 0.12, 2.0);
+        needle.rotation.set(Math.PI / 2, 0, Math.PI / 4); // Laying flat
+        scene.add(needle);
+
+        // --- Particles (Sparks) ---
+        const sparkCount = 100;
+        const sparkGeo = new THREE.BufferGeometry();
+        const sparkPositions = new Float32Array(sparkCount * 3);
+        const sparkVelocities = new Float32Array(sparkCount * 3);
+        const sparkLifetimes = new Float32Array(sparkCount);
+        const sparkColors = new Float32Array(sparkCount * 3);
+
+        sparkGeo.setAttribute('position', new THREE.BufferAttribute(sparkPositions, 3));
+        sparkGeo.setAttribute('color', new THREE.BufferAttribute(sparkColors, 3));
+
+        const sparkMat = new THREE.PointsMaterial({
+            size: 0.03,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.9,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        });
+
+        const sparkSystem = new THREE.Points(sparkGeo, sparkMat);
+        scene.add(sparkSystem);
+
+        let sparkPoolIndex = 0;
+        function emitSparks(pos, count = 6) {
+            for (let k = 0; k < count; k++) {
+                const i = sparkPoolIndex;
+                sparkPoolIndex = (sparkPoolIndex + 1) % sparkCount;
+                const i3 = i * 3;
+                
+                sparkPositions[i3] = pos.x + (Math.random() - 0.5) * 0.03;
+                sparkPositions[i3 + 1] = 0.02; // Just above fabric
+                sparkPositions[i3 + 2] = pos.z + (Math.random() - 0.5) * 0.03;
+
+                const theta = Math.random() * Math.PI * 2;
+                const speed = 0.01 + Math.random() * 0.02;
+                sparkVelocities[i3] = Math.cos(theta) * speed;
+                sparkVelocities[i3 + 1] = Math.random() * 0.04 + 0.01;
+                sparkVelocities[i3 + 2] = Math.sin(theta) * speed;
+
+                sparkLifetimes[i] = 1.0;
+                
+                // Gold/White
+                sparkColors[i3] = 1.0;
+                sparkColors[i3 + 1] = 0.9;
+                sparkColors[i3 + 2] = 0.6;
+            }
+            sparkGeo.attributes.position.needsUpdate = true;
+            sparkGeo.attributes.color.needsUpdate = true;
+        }
+
+        // --- Post Processing (Bloom) ---
+        const composer = new EffectComposer(renderer);
+        composer.addPass(new RenderPass(scene, camera));
+        const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
+        bloomPass.threshold = 0.1;
+        bloomPass.strength = 0.6;
+        bloomPass.radius = 0.5;
+        composer.addPass(bloomPass);
+
+        // --- Animation Loop ---
+        const clock = new THREE.Clock(false); // Start paused
+        
+        // Smooth interpolation values
+        let cameraTargetPos = new THREE.Vector3();
+        let cameraTargetLook = new THREE.Vector3();
+        let needleTargetPos = new THREE.Vector3();
+        let lastStitchIndex = -1;
+        let hasSparked = false;
+        let isSkipped = false;
+        let animationFrameId;
+
+        // Transition to Main Site
+        function enterSite() {
+            sessionStorage.setItem('introPlayed', 'true');
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+            
+            const introContainer = document.getElementById('intro-container');
+            const mainWrapper = document.getElementById('main-wrapper');
+            
+            introContainer.style.opacity = 0;
+            
+            setTimeout(() => {
+                introContainer.style.display = 'none';
+                document.body.classList.remove('intro-active');
+                mainWrapper.style.display = 'block';
+                // Trigger reflow
+                void mainWrapper.offsetWidth;
+                mainWrapper.style.opacity = 1;
+            }, 1000);
+        }
+
+        const skipBtn = document.getElementById('skip-btn');
+        skipBtn.addEventListener('click', () => {
+            enterSite();
+        });
+        
+        // Start Screen Logic
+        const startScreen = document.getElementById('start-screen');
+        startScreen.addEventListener('click', () => {
+            clock.start();
+            startScreen.style.opacity = 0;
+            skipBtn.style.opacity = 0.7;
+            skipBtn.style.pointerEvents = 'auto';
+            setTimeout(() => startScreen.style.display = 'none', 1000);
+            document.getElementById('fade-screen').style.opacity = 0;
+        });
+
+        function animate() {
+            animationFrameId = requestAnimationFrame(animate);
+            
+            // Update Sparks
+            const sPos = sparkGeo.attributes.position.array;
+            const sCol = sparkGeo.attributes.color.array;
+            let sparksActive = false;
+            for (let i = 0; i < sparkCount; i++) {
+                if (sparkLifetimes[i] > 0) {
+                    sparksActive = true;
+                    sparkLifetimes[i] -= 0.05;
+                    const i3 = i * 3;
+                    sPos[i3] += sparkVelocities[i3];
+                    sPos[i3 + 1] += sparkVelocities[i3 + 1];
+                    sPos[i3 + 2] += sparkVelocities[i3 + 2];
+                    sparkVelocities[i3 + 1] -= 0.0015; // Gravity
+                    const life = Math.max(sparkLifetimes[i], 0);
+                    sCol[i3] = 1.0 * life; sCol[i3 + 1] = 0.9 * life; sCol[i3 + 2] = 0.6 * life;
+                } else {
+                    sPos[i * 3 + 1] = -100; // Hide
+                }
+            }
+            if (sparksActive) {
+                sparkGeo.attributes.position.needsUpdate = true;
+                sparkGeo.attributes.color.needsUpdate = true;
+            }
+            
+            let time = clock.getElapsedTime();
+            
+            // Auto-enter site after animation finishes (approx 12s)
+            if (time > 12.0) {
+                enterSite();
+                return;
+            }
+
+            const totalStitchTime = 4.5; 
+            const stitchStart = 2.5; 
+
+            // 1. Camera Logic with smooth transitions
+            if (time < stitchStart) {
+                // Scene 1: Table Pickup -> Move to Start
+                const t = time / stitchStart;
+                const eased = easeInOutCubic(t);
+                
+                // Camera moves from Table view to Stitch Start view
+                const camStartPos = new THREE.Vector3(-3.5, 1.2, 3.0);
+                const camEndPos = new THREE.Vector3(-1.5, 0.8, 1.5);
+                cameraTargetPos.lerpVectors(camStartPos, camEndPos, eased);
+                
+                const lookStart = new THREE.Vector3(-3.5, 0, 2.0); // Look at table
+                const lookEnd = new THREE.Vector3(-1.0, 0, 0); // Look at fabric start
+                cameraTargetLook.lerpVectors(lookStart, lookEnd, eased);
+                
+                camera.position.copy(cameraTargetPos);
+                camera.lookAt(cameraTargetLook);
+
+                // Needle Pickup Animation
+                const tablePos = new THREE.Vector3(-3.5, 0.12, 2.0);
+                const startPoint = curve.getPointAt(0);
+                const readyPos = new THREE.Vector3(startPoint.x, 0.7, startPoint.z);
+                
+                needle.position.lerpVectors(tablePos, readyPos, eased);
+                
+                // Rotate from flat (PI/2) to vertical (0)
+                const startTangent = curve.getTangentAt(0);
+                const targetRotY = Math.atan2(startTangent.x, startTangent.z);
+                
+                needle.rotation.x = THREE.MathUtils.lerp(Math.PI / 2, 0, eased);
+                needle.rotation.y = THREE.MathUtils.lerp(0, targetRotY, eased);
+                needle.rotation.z = THREE.MathUtils.lerp(Math.PI / 4, 0, eased);
+                
+            } else if (time < stitchStart + totalStitchTime) {
+                // Scene 2 & 3: Stitching with easing
+                const rawProgress = (time - stitchStart) / totalStitchTime;
+                const clampedProgress = Math.min(rawProgress, 1.0);
+                const easedProgress = easeInOutQuad(clampedProgress);
+                
+                // --- Precise Stitching Logic ---
+                const maxCount = thread.geometry.index.count;
+                const totalStitches = 40; 
+                const stitchProgress = easedProgress * totalStitches;
+                const currentStitchIndex = Math.floor(stitchProgress);
+                const stitchPhase = stitchProgress % 1; // 0.0 to 1.0
+
+                // Move Needle with precise contact
+                if (clampedProgress < 1.0) {
+                    // Calculate discrete stitch positions
+                    const tCurrent = Math.min(currentStitchIndex / totalStitches, 1.0);
+                    const tNext = Math.min((currentStitchIndex + 1) / totalStitches, 1.0);
+                    const pCurrent = curve.getPointAt(tCurrent);
+                    const pNext = curve.getPointAt(tNext);
+                    
+                    // Needle Geometry: Height 0.8, Center 0, Tip at -0.4
+                    const needleCenterOffset = 0.4;
+                    const pierceDepth = -0.05; // Tip goes through fabric
+                    const hoverHeight = 0.3;   // Tip above fabric
+                    
+                    let targetPos = new THREE.Vector3();
+                    let tipY = hoverHeight;
+                    
+                    // Stitch Cycle: Plunge -> Retract -> Move
+                    if (stitchPhase < 0.25) {
+                        // Plunge (Hover -> Pierce)
+                        const t = stitchPhase / 0.25;
+                        const ease = t * t * t; // Sharp entry
+                        tipY = hoverHeight - (hoverHeight - pierceDepth) * ease;
+                        targetPos.copy(pCurrent);
+                    } else if (stitchPhase < 0.50) {
+                        // Retract (Pierce -> Hover)
+                        const t = (stitchPhase - 0.25) / 0.25;
+                        const ease = 1 - Math.pow(1 - t, 3); // Quick exit
+                        tipY = pierceDepth + (hoverHeight - pierceDepth) * ease;
+                        targetPos.copy(pCurrent);
+                    } else {
+                        // Move to next stitch
+                        const t = (stitchPhase - 0.50) / 0.50;
+                        const ease = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+                        targetPos.lerpVectors(pCurrent, pNext, ease);
+                        tipY = hoverHeight;
+                    }
+                    
+                    // Apply Position directly to avoid floating
+                    needle.position.copy(targetPos);
+                    needle.position.y = tipY + needleCenterOffset;
+                    needleTargetPos.copy(needle.position); // Sync for transition
+                    
+                    // Rotate needle to face movement (Vertical orientation)
+                    const tangent = curve.getTangentAt(tCurrent);
+                    needle.rotation.set(0, Math.atan2(tangent.x, tangent.z), 0);
+                    
+                    // Spark Logic
+                    if (currentStitchIndex !== lastStitchIndex) {
+                        lastStitchIndex = currentStitchIndex;
+                        hasSparked = false;
+                    }
+                    // Trigger when needle is deep in fabric (approx phase 0.25)
+                    if (!hasSparked && stitchPhase > 0.2) {
+                        emitSparks(needle.position);
+                        hasSparked = true;
+                    }
+
+                    // Sync Thread Reveal: Thread appears as needle retracts
+                    let revealFactor = currentStitchIndex;
+                    if (stitchPhase > 0.25) {
+                        // Start revealing during retract
+                        const t = Math.min((stitchPhase - 0.25) / 0.25, 1.0);
+                        revealFactor += t;
+                    }
+                    thread.geometry.setDrawRange(0, Math.floor((revealFactor / totalStitches) * maxCount));
+
+                    // Camera follows smooth progress
+                    const smoothPoint = curve.getPointAt(easedProgress);
+                    cameraTargetPos.set(smoothPoint.x, 0.6, smoothPoint.z + 0.8);
+                    cameraTargetLook.copy(smoothPoint);
+                    
+                    camera.position.lerp(cameraTargetPos, 0.1);
+                    camera.lookAt(cameraTargetLook);
+                    
+                } else {
+                    // Lift needle away smoothly
+                    needleTargetPos.y += 0.02;
+                    needle.position.lerp(needleTargetPos, 0.1);
+                }
+                
+            } else {
+                // Scene 4: Reveal with smooth camera pullback
+                const revealProgress = Math.min((time - (stitchStart + totalStitchTime)) / 3.0, 1.0);
+                const easedReveal = easeOutCubic(revealProgress);
+                
+                cameraTargetPos.set(0, 4, 3);
+                cameraTargetLook.set(0, 0, 0);
+                
+                camera.position.lerp(cameraTargetPos, easedReveal * 0.02 + 0.005);
+                camera.lookAt(cameraTargetLook);
+                
+                // Fade in overlay smoothly
+                const overlayOpacity = Math.min(easedReveal, 1.0);
+                document.getElementById('intro-overlay').style.opacity = overlayOpacity;
+                
+                // Ensure thread is fully drawn if skipped
+                thread.geometry.setDrawRange(0, thread.geometry.index.count);
+
+                // Continue lifting needle
+                needle.position.y += 0.01;
+            }
+
+            // Subtle fabric animation
+            fabric.rotation.z = Math.sin(time * 0.2) * 0.002;
+
+            composer.render();
+        }
+
+        // Easing functions for smooth animations
+        function easeInOutQuad(t) {
+            return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+        }
+
+        function easeInOutCubic(t) {
+            return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        }
+
+        function easeOutCubic(t) {
+            return 1 - Math.pow(1 - t, 3);
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            composer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        animate();
+        }
+    </script>
+</body>
+</html>
