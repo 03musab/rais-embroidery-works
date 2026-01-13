@@ -4,8 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // If running locally, use localhost. If deployed, use your production server URL.
     // TODO: Replace 'https://your-deployed-api.com' with your actual backend URL after hosting.
-    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-    const API_URL = isLocal ? 'http://localhost:5000/api/reviews' : 'https://your-deployed-api.com/api/reviews';
+    const API_URL = '/api/reviews';
 
     // 1. Load reviews on page load
     fetchReviews();

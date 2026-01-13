@@ -3,8 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitBtn = document.querySelector('.btn-submit');
 
     // Determine API URL (Local vs Production)
-    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-    const API_URL = isLocal ? 'http://localhost:5000/api/contact' : 'https://your-deployed-api.com/api/contact';
+    // Use relative path so it works on both localhost and deployment
+    const API_URL = '/api/contact';
 
     if (contactForm) {
         contactForm.addEventListener('submit', async (e) => {
