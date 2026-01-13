@@ -23,11 +23,14 @@ router.post('/', async (req, res) => {
 
     // Create transporter per request to avoid timeout issues with stale connections
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
-      }
+      },
+      family: 4 // Force IPv4 to avoid IPv6 connection issues on Render
     });
 
     // Send email in background without awaiting
