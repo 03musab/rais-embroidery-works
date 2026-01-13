@@ -18,6 +18,9 @@ router.post('/', async (req, res) => {
 
     if (error) throw error;
 
+    // Send response immediately to prevent waiting for email
+    res.status(200).json({ message: 'Message received successfully!' });
+
     // Send Email Notification
     const transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -27,18 +30,20 @@ router.post('/', async (req, res) => {
       }
     });
 
-    await transporter.sendMail({
+    // Send email in background without awaiting
+    transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: '03.musab.1@gmail.com',
       subject: `New Contact from ${name}`,
       text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
       replyTo: email
-    });
-
-    res.status(200).json({ message: 'Message received successfully!' });
+    }).catch(err => console.error('Email sending failed:', err));
+    
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Server Error' });
+    if (!res.headersSent) {
+      res.status(500).json({ error: 'Server Error' });
+    }
   }
 });
 
